@@ -34,4 +34,8 @@ public class Item {
     public void setQuantityAvailable(int quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
     }
+
+    public String toString() {
+        return "Item: name=" + name + " price=" + price + " qtyAvailable=" + quantityAvailable;
+    }
 }
