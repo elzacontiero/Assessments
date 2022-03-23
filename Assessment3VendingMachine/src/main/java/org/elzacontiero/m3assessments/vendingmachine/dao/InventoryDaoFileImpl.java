@@ -5,6 +5,10 @@ import org.elzacontiero.m3assessments.vendingmachine.dto.Item;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Implements interface InventoryDao for the specific inventory.csv file.
+ * It loads data into the array list and saves back at the end of the program.
+ */
 public class InventoryDaoFileImpl implements InventoryDao {
     // The name of the CSV file containing initial inventory list.
     private String inventoryFileName;

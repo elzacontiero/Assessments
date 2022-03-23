@@ -3,17 +3,20 @@ package org.elzacontiero.m3assessments.vendingmachine;
 import org.elzacontiero.m3assessments.vendingmachine.dao.InventoryDao;
 import org.elzacontiero.m3assessments.vendingmachine.dao.InventoryDaoFileImpl;
 import org.elzacontiero.m3assessments.vendingmachine.dto.Item;
-
 import java.io.*;
-
 import java.util.Scanner;
 
 public class VendingMachine {
 
+    /**
+     * Create an inventory.
+     */
     InventoryDao inventory = new InventoryDaoFileImpl();
 
+    /**
+     * Display all of the items and their prices along with an option to exit the program.
+     */
     private void presentMenu() {
-        // Display all of the items and their prices along with an option to exit the program.
         for (int i = 0; i < inventory.size(); i++) {
             Item item = inventory.get(i);
             if (item.getQuantityAvailable() > 0) {
@@ -22,6 +25,10 @@ public class VendingMachine {
         }
     }
 
+    /**
+     * Ask the user for money.
+     * @return Amount of money entered, in pence.
+     */
     private int askUserForMoney() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Please enter money: ");
@@ -29,7 +36,11 @@ public class VendingMachine {
         return (int) (doubleMoney*100.0);
     }
 
-
+    /**
+     * Ask user for a option to purchase. Handles the input and select choice from inventory.
+     * @return object type Item from user's choice.
+     * @throws NoItemInventoryException
+     */
     private Item askUserForChoice() throws NoItemInventoryException {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter your selection: ");
@@ -44,12 +55,17 @@ public class VendingMachine {
         return item;
     }
 
+    /**
+     * Main loop of the program.
+     */
     public void run() {
         try {
+            // Instruct the inventory to load the csv file from disk.
             inventory.load();
 
-            // present menu along with an option to exit the program
+            // Present menu along with an option to exit the program.
             presentMenu();
+
             int amount = askUserForMoney();
 
             try {
@@ -71,10 +87,15 @@ public class VendingMachine {
                     amount += askUserForMoney();
                 }
 
+                // Decreases the item's price from the amount of money in.
                 amount -= item.getPrice();
+                // Calculates the change.
                 Change change = new Change(amount);
+                // Prints the change to the user.
                 System.out.println(change.toString());
+                // Decrease the inventory for that item.
                 item.setQuantityAvailable(item.getQuantityAvailable() - 1);
+                // Saves to inventory.csv file
                 inventory.save();
             }
             catch (NoItemInventoryException e) {
@@ -82,6 +103,7 @@ public class VendingMachine {
             }
         }
         catch (IOException e) {
+            // This exception is thrown by the IO classes.
             System.out.println("Error in program. Error: " + e.getMessage());
         }
     }
