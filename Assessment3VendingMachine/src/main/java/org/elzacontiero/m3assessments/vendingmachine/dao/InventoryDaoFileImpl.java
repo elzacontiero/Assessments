@@ -7,8 +7,16 @@ import java.util.ArrayList;
 
 public class InventoryDaoFileImpl implements InventoryDao {
     // The name of the CSV file containing initial inventory list.
-    private final String inventoryFileName = "inventory.csv";
+    private String inventoryFileName;
     private ArrayList<Item> inventory = new ArrayList<>();
+
+    public InventoryDaoFileImpl() {
+        inventoryFileName = "inventory.csv";
+    }
+
+    public InventoryDaoFileImpl(String inventoryFileName) {
+        this.inventoryFileName = inventoryFileName;
+    }
 
     @Override
     public Item get(int i) {
