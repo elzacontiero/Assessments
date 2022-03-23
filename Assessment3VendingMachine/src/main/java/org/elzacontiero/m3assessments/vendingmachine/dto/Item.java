@@ -1,4 +1,4 @@
-package org.elzacontiero.m3assessments.vendingmachine;
+package org.elzacontiero.m3assessments.vendingmachine.dto;
 
 /**
  * The class item models items available in a vending machine.
