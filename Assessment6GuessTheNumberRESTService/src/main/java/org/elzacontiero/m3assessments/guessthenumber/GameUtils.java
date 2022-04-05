@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class GameUtils {
 
-    public static int[] generateRandomNumbers() {
+    public static String generateRandomNumbers() {
         ArrayList<Integer> numbers = new ArrayList<>();
         Integer r;
         for (int i=0; i<4; i++) {
@@ -21,11 +21,12 @@ public class GameUtils {
             numbers.add(r);
         }
 
-        int[] a = new int[4];
-        for (int i =0;i<a.length;i++) {
-            a[i] = numbers.get(i);
-        }
-        return a;
+        return String.format("%d%d%d%d", numbers.get(0), numbers.get(1), numbers.get(2), numbers.get(3));
+//        int[] a = new int[4];
+//        for (int i =0;i<a.length;i++) {
+//            a[i] = numbers.get(i);
+//        }
+//        return a;
     }
 
     public static boolean compareArrays(int[] one, int[] two) {
@@ -56,12 +57,6 @@ public class GameUtils {
             }
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        for (int x : generateRandomNumbers()) {
-            System.out.println(x);
-        }
     }
 
 }

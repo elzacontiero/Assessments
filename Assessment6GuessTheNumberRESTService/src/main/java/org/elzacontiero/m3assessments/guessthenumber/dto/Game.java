@@ -1,16 +1,22 @@
 package org.elzacontiero.m3assessments.guessthenumber.dto;
 
 import org.elzacontiero.m3assessments.guessthenumber.GameStatus;
+import org.springframework.stereotype.Component;
+
 
 /**
  * A Game should have an answer and a status (in progress or finished).
  * While the game is in progress, users should not be able to see the answer.
  * The answer will be a 4-digit number with no duplicate digits.
  */
+//@Component
 public class Game {
+
    private int id;
    private String answer;
    private GameStatus status;
+
+   public Game() {}
 
    public Game(String answer, GameStatus status) {
       this.answer = answer;
