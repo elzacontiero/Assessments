@@ -33,17 +33,14 @@ public class GameController {
     GameService gameService;
 
     @PostMapping("/begin")
-    public ResponseEntity<Game> begin(@RequestBody Game game) {
-        // TODO: Call service
+    public ResponseEntity<Game> begin() {
+        Game game = gameService.create();
         return new ResponseEntity<>(game, HttpStatus.CREATED);
     }
 
     @PostMapping("/guess")
     public ResponseEntity<Round> guess(@RequestBody Round guess) {
-        // TODO: Call service
-        guess.setId(666);
-        guess.setGame_id(123);
-        guess.setTstamp(new Timestamp(System.currentTimeMillis()));
+        gameService.guess(guess);
         return new ResponseEntity<Round>(guess, HttpStatus.OK);
     }
 
@@ -57,7 +54,7 @@ public class GameController {
     // "game/{gameId}" - GET – Returns a specific game based on ID. Be sure in-progress games do not display their answer.
     @GetMapping("/game/{id}")
     public ResponseEntity<Game> game(@PathVariable Integer id) {
-        Game game = new Game(id, "dude", GameStatus.IN_PROGRESS);
+        Game game = new Game(id, "dude", "INPROGRESS");
         return new ResponseEntity<Game>(game, HttpStatus.FOUND);
     }
 

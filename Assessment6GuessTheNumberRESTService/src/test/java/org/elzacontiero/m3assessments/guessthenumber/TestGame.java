@@ -9,8 +9,8 @@ public class TestGame {
 
     @Test
     public void testCheckingForEAndP() {
-        int[] computer = new int[] { 1, 2, 3, 4};
-        int[] guess = new int[] {4, 2, 7, 8};
+        char[] computer = new char[] { '1', '2', '3', '4'};
+        char[] guess = new char[] {'4', '2', '7', '8'};
         char[] result = checkingForEAndP(computer, guess);
         assertEquals('P', result[0]);
         assertEquals('E', result[1]);

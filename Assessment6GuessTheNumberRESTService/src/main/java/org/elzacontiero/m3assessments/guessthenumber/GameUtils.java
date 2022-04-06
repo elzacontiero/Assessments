@@ -38,7 +38,7 @@ public class GameUtils {
         }
     }
 
-    public static char[] checkingForEAndP (int[] computer, int[] guess) {
+    public static char[] checkingForEAndP (char[] computer, char[] guess) {
         char[] result = new char[4];
         for (int i=0; i<guess.length; i++) {
             if (computer[i] == guess[i]){

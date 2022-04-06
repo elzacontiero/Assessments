@@ -3,33 +3,47 @@ package org.elzacontiero.m3assessments.guessthenumber.dto;
 import java.sql.Timestamp;
 
 public class Round {
-    private int id;
-    private int game_id;
+    private long id;
+    private long game_id;
     private String attempt;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    /**
+     * This round's result:
+     */
+    private String result;
     private Timestamp tstamp;
+
 
     public Round() {}
 
-    public Round(int id, int game_id, String attempt, Timestamp tstamp) {
+    public Round(long id, long game_id, String attempt, Timestamp tstamp) {
         this.id = id;
         this.game_id = game_id;
         this.attempt = attempt;
         this.tstamp = tstamp;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getGame_id() {
+    public long getGame_id() {
         return game_id;
     }
 
-    public void setGame_id(int game_id) {
+    public void setGame_id(long game_id) {
         this.game_id = game_id;
     }
 

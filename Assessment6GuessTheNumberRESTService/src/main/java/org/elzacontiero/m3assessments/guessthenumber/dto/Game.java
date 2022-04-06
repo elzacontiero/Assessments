@@ -1,6 +1,5 @@
 package org.elzacontiero.m3assessments.guessthenumber.dto;
 
-import org.elzacontiero.m3assessments.guessthenumber.GameStatus;
 import org.springframework.stereotype.Component;
 
 
@@ -12,28 +11,28 @@ import org.springframework.stereotype.Component;
 //@Component
 public class Game {
 
-   private int id;
+   private long id;
    private String answer;
-   private GameStatus status;
+   private String status;
 
    public Game() {}
 
-   public Game(String answer, GameStatus status) {
+   public Game(String answer, String status) {
       this.answer = answer;
       this.status = status;
    }
 
-   public Game(int id, String answer, GameStatus status) {
+   public Game(int id, String answer, String status) {
       this.id = id;
       this.answer = answer;
       this.status = status;
    }
 
-   public int getId() { return id; }
+   public long getId() { return id; }
    public String getAnswer() { return answer; }
-   public GameStatus getStatus() { return status; }
+   public String getStatus() { return status; }
 
-   public void setId(int id) {
+   public void setId(long id) {
       this.id = id;
    }
 
@@ -41,7 +40,7 @@ public class Game {
       this.answer = answer;
    }
 
-   public void setStatus(GameStatus status) {
+   public void setStatus(String status) {
       this.status = status;
    }
 }

@@ -1,10 +1,14 @@
 package org.elzacontiero.m3assessments.guessthenumber.dao;
 
+import org.elzacontiero.m3assessments.guessthenumber.GameStatus;
 import org.elzacontiero.m3assessments.guessthenumber.dto.Game;
+import org.elzacontiero.m3assessments.guessthenumber.dto.Round;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,12 +23,29 @@ class TimestampExtractor implements RowMapper<Timestamp> {
     }
 }
 
+class GameMapper implements RowMapper<Game>  {
+    @Override
+    public Game mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Game game = new Game();
+        game.setId(rs.getLong(1));
+        game.setAnswer(rs.getString(2));
+        game.setStatus(rs.getString(3));
+        return game;
+    }
+}
+
 // Do we need another type of annotation?
 @Component
 public class GameDao {
 
     @Autowired
     private JdbcTemplate jdbc;
+
+    private long getLastInsertId() {
+        List<Map<String, Object>> ids = jdbc.queryForList("SELECT LAST_INSERT_ID() id");
+        BigInteger id = (BigInteger) ids.get(0).get("id");
+        return id.longValue();
+    }
 
     public Timestamp dbNow() {
         TimestampExtractor map = new TimestampExtractor();
@@ -33,12 +54,34 @@ public class GameDao {
     }
 
     public Game createNew(Game game) {
-        String sql = String.format("insert into game(answer, gamestatus) "+
-            "values ('%s',%d)", game.getAnswer(), game.getStatus());
+        String sql = String.format("insert into game(answer, gamestatus) values ('%s','%s')",
+                game.getAnswer(), game.getStatus());
         jdbc.execute(sql);
-        List<Map<String, Object>> ids = jdbc.queryForList("SELECT LAST_INSERT_ID() id");
-        Integer id = (Integer) ids.get(0).get("id");
+        long id = getLastInsertId();
         game.setId(id);
         return game;
     }
+
+    public Round save(Round round) {
+        String sql = String.format("insert into round(game_id, attempt, result, timestamp)" +
+                " values (%d, '%s', '%s', now())",
+                round.getGame_id(), round.getAttempt(), round.getResult());
+        jdbc.execute(sql);
+        long id = getLastInsertId();
+        round.setId(id);
+        return round;
+    }
+
+    public Game get(long id) {
+        String sql = String.format("select id, answer, gamestatus from game where id=%d", id);
+        List<Game> games = jdbc.query(sql, new GameMapper());
+        if (games.isEmpty())  {
+            return null;
+        } else {
+            return games.get(0);
+        }
+    }
+
+
+
 }
