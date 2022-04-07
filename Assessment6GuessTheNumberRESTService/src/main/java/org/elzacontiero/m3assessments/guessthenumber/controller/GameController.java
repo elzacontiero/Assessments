@@ -11,7 +11,6 @@ You will need several REST endpoints for this:
  */
 
 
-import org.elzacontiero.m3assessments.guessthenumber.GameStatus;
 import org.elzacontiero.m3assessments.guessthenumber.dto.Game;
 import org.elzacontiero.m3assessments.guessthenumber.dto.Round;
 import org.elzacontiero.m3assessments.guessthenumber.service.GameService;
@@ -21,40 +20,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/game")
+@RequestMapping("/bulls")
 public class GameController {
 
     @Autowired
-    GameService gameService;
+    GameService service;
 
     @PostMapping("/begin")
     public ResponseEntity<Game> begin() {
-        Game game = gameService.create();
+        Game game = service.create();
         return new ResponseEntity<>(game, HttpStatus.CREATED);
     }
 
     @PostMapping("/guess")
     public ResponseEntity<Round> guess(@RequestBody Round guess) {
-        gameService.guess(guess);
-        return new ResponseEntity<Round>(guess, HttpStatus.OK);
+        Round reply = service.guess(guess);
+        return new ResponseEntity<Round>(reply, HttpStatus.OK);
     }
 
     @GetMapping("/game")
     public ResponseEntity<List<Game>> game() {
-        // TODO: call service
-        List<Game> games = new ArrayList<>();
+        List<Game> games = service.getAll();
         return new ResponseEntity<List<Game>>(games, HttpStatus.OK);
     }
 
     // "game/{gameId}" - GET – Returns a specific game based on ID. Be sure in-progress games do not display their answer.
     @GetMapping("/game/{id}")
     public ResponseEntity<Game> game(@PathVariable Integer id) {
-        Game game = new Game(id, "dude", "INPROGRESS");
+        Game game = service.get(id);
         return new ResponseEntity<Game>(game, HttpStatus.FOUND);
     }
 

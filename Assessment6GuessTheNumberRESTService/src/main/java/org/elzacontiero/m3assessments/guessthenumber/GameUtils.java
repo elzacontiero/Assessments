@@ -29,14 +29,6 @@ public class GameUtils {
 //        return a;
     }
 
-    public static boolean compareArrays(int[] one, int[] two) {
-        if (Arrays.equals (one,two)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     public static char[] checkingForEAndP (char[] computer, char[] guess) {
         char[] result = new char[4];

@@ -43,4 +43,8 @@ public class Game {
    public void setStatus(String status) {
       this.status = status;
    }
+
+   public String toString() {
+      return String.format("Game {id=%d, answer=%s, status=%s}", id, answer, status);
+   }
 }
