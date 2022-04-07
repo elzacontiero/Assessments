@@ -1,12 +1,12 @@
 package org.elzacontiero.m3assessments.guessthenumber.dao;
 
-import org.elzacontiero.m3assessments.guessthenumber.GameStatus;
 import org.elzacontiero.m3assessments.guessthenumber.dto.Game;
 import org.elzacontiero.m3assessments.guessthenumber.dto.Round;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import javax.sql.DataSource;
 
 import java.math.BigInteger;
 import java.sql.ResultSet;
@@ -34,12 +34,28 @@ class GameMapper implements RowMapper<Game>  {
     }
 }
 
-// Do we need another type of annotation?
+/**
+ * GameDao is responsible to communicate with the Database
+ *
+ */
 @Component
 public class GameDao {
 
     @Autowired
     private JdbcTemplate jdbc;
+
+    /**
+     * The default constructor is used by Spring in the Autowired
+    */
+    public GameDao() {}
+
+    /**
+     * This constructor is used for tests.
+     * @param ds
+     */
+    public GameDao(DataSource ds) {
+        jdbc = new JdbcTemplate(ds);
+    }
 
     /**
      * This query get the last inserted ID into the database.
