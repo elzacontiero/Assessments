@@ -8,20 +8,25 @@ import org.springframework.stereotype.Component;
  * While the game is in progress, users should not be able to see the answer.
  * The answer will be a 4-digit number with no duplicate digits.
  */
-//@Component
 public class Game {
 
+   /** Unique identifier for this Game.  */
    private long id;
+   /** This game's answer */
    private String answer;
+   /** Status of this game: INPROGRESS or FINISHED */
    private String status;
 
+   /** The default constructor  */
    public Game() {}
 
+   /** Create Game passing answer and status on the constructor. */
    public Game(String answer, String status) {
       this.answer = answer;
       this.status = status;
    }
 
+   /** Create a Game object passing ID, answer and status. */
    public Game(int id, String answer, String status) {
       this.id = id;
       this.answer = answer;
@@ -44,6 +49,8 @@ public class Game {
       this.status = status;
    }
 
+   /** For pretty formatting, override the default toString() method. */
+   @Override
    public String toString() {
       return String.format("Game {id=%d, answer=%s, status=%s}", id, answer, status);
    }

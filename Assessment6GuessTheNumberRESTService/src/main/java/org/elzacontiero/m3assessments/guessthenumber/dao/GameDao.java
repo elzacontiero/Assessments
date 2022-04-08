@@ -68,12 +68,12 @@ public class GameDao {
         return id.longValue();
     }
 
-    public Timestamp dbNow() {
-        TimestampExtractor map = new TimestampExtractor();
-        List<Timestamp> result = jdbc.query("select now()", map);
-        return result.get(0);
-    }
-
+    /**
+     * Create a new Game in the database. After inserting a game into DB, MySQL gives a new ID
+     * for the game. Then there's a need to get this ID. See method getLastInsertId()
+     * @param game
+     * @return
+     */
     public Game createNew(Game game) {
         String sql = String.format("insert into game(answer, gamestatus) values ('%s','%s')",
                 game.getAnswer(), game.getStatus());
@@ -88,6 +88,11 @@ public class GameDao {
         jdbc.execute(sql);
     }
 
+    /**
+     * Same here, this function retrieves the last inserted ID from mysql.
+     * @param round
+     * @return
+     */
     public Round insert(Round round) {
         String sql = String.format("insert into round(game_id, attempt, result, tstamp)" +
                 " values (%d, '%s', '%s', now())",
@@ -113,7 +118,4 @@ public class GameDao {
         List<Game> games = jdbc.query(sql, new GameMapper());
         return games;
     }
-
-
-
 }

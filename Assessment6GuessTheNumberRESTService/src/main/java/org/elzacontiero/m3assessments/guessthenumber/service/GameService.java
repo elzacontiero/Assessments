@@ -25,17 +25,25 @@ public class GameService {
         return game;
     }
 
+    /**
+     * Calculates the round of a guess for a game.
+     * @param guess The guess from player.
+     * @return A Round instance with the results.
+     */
     public Round guess(Round guess) {
-        guess.setTstamp(new Timestamp(System.currentTimeMillis()));
+        // Try find the game.
         Game game = dao.get(guess.getGame_id());
         if (game == null) {
+            // Didn't find game id.
             return null;
         }
 
+        // Do not answer for finished games.
         if (game.getStatus().equals("FINISHED")) {
             return null;
         }
 
+        // If attempt is equals to game answer, update DB with FINISHED status.
         if (game.getAnswer().equals(guess.getAttempt())) {
             game.setStatus("FINISHED");
             guess.setResult("EEEE");
@@ -44,10 +52,15 @@ public class GameService {
             return guess;
         }
         else {
+            // Here go ahead and calculate result for player for her guess.
             char[] result = GameUtils.checkingForEAndP(
+                                // need to convert answer from String to char[]
                                 game.getAnswer().toCharArray(),
                                 guess.getAttempt().toCharArray());
+
+            // Need to store result, but before need to convert from char[] back to String.
             guess.setResult(String.copyValueOf(result));
+            // Save attempt to DB
             dao.insert(guess);
             return guess;
         }
