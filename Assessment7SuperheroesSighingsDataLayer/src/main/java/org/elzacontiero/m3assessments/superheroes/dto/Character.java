@@ -57,4 +57,10 @@ public class Character {
     public void setCharacterType(String characterType) {
         this.characterType = characterType;
     }
+
+    @Override
+    public String toString() {
+        return "Character [characterType=" + characterType + ", description=" + description + ", id=" + id + ", name="
+                + name + ", superpower=" + superpower + "]";
+    }
 }

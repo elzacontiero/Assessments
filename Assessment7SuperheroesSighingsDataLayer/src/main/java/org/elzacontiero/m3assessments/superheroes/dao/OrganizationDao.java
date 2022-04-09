@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 class OrganizationMapper implements RowMapper<Organization> {
-    @Override
+
     public Organization mapRow(ResultSet rs, int rowNum) throws SQLException {
         Organization org = new Organization(
             rs.getLong("id"),
@@ -43,15 +43,14 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
         }
     }
 
+    // https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html
     public void delete(long id) {
-        String sql = String.format("delete from organizations where id=%d", id);
-        jdbc.execute(sql);
+        jdbc.update("delete from organizations where id=?", id);
     }
 
     public long insert(Organization x) {
-        String sql = String.format("insert into organizations(name, description, address) " +
-            " values ('%s','%s','%s'", x.getName(), x.getDescription(), x.getAddress());
-        jdbc.execute(sql);
+        jdbc.update("insert into organizations(name, description, address) values (?,?,?)",
+            x.getName(), x.getDescription(), x.getAddress());
         long id = DaoUtils.getLastInsertId(jdbc);
         x.setId(id);
         return id;
