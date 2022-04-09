@@ -50,7 +50,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>org.elzacontiero.m3assessments.guessthenumber.App</mainClass>
+                    <mainClass>org.elzacontiero.m3assessments.superheroes.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
