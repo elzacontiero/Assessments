@@ -1,12 +1,22 @@
 package org.elzacontiero.m3assessments.superheroes.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+
+import javax.sql.DataSource;
+
 import org.elzacontiero.m3assessments.superheroes.dto.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.batch.BatchProperties.Jdbc;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 class OrganizationMapper implements RowMapper<Organization> {
@@ -28,6 +38,11 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
     @Autowired
     private JdbcTemplate jdbc;
 
+    public OrganizationDao() {}
+
+    public OrganizationDao(DataSource ds) {
+        jdbc = new JdbcTemplate(ds);
+    }
 
     public Organization getById(long id) {
         String sql = String.format(
@@ -48,12 +63,31 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
         jdbc.update("delete from organizations where id=?", id);
     }
 
-    public long insert(Organization x) {
-        jdbc.update("insert into organizations(name, description, address) values (?,?,?)",
-            x.getName(), x.getDescription(), x.getAddress());
-        long id = DaoUtils.getLastInsertId(jdbc);
-        x.setId(id);
-        return id;
+    public long insert(Organization org) {
+        InsertPreparedStm ps = new InsertPreparedStm(org);
+        KeyHolder key = new GeneratedKeyHolder();
+        jdbc.update(ps, key);
+        org.setId(key.getKey().longValue());
+        return org.getId();
     }
+
+    class InsertPreparedStm implements PreparedStatementCreator {
+
+        Organization organization;
+
+        public InsertPreparedStm(Organization org) {
+            this.organization = org;
+        }
+
+        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+            String sql = "insert into organizations(name, description, address) values (?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, organization.getName());
+            ps.setString(2, organization.getDescription());
+            ps.setString(3, organization.getAddress());
+            return ps;
+        }
+    }
+
 
 }
