@@ -38,11 +38,11 @@ create table characters_orgs_map (
 -- Records of sightings
 create table recordings (
     id int auto_increment primary key,
-    character_id int references characters(id),
+    character_id int,
     address varchar(120),
     -- See http://wiki.gis.com/wiki/index.php/Decimal_degrees for required precision
     latitude decimal(8,6),
     longitude decimal(8,6),
-    time_of_sight timestamp not null
+    time_of_sight timestamp not null,
+    foreign key (character_id) references characters(id) on delete cascade
 );
-
