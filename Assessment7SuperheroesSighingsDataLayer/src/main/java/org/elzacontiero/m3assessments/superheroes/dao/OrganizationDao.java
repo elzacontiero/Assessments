@@ -10,8 +10,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.elzacontiero.m3assessments.superheroes.dto.Organization;
+import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.batch.BatchProperties.Jdbc;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -89,5 +89,16 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
         }
     }
 
+    /**
+     * Get organizations this Character belongs to.
+     */
+    public List<Organization> getOrganizations(SuperCharacter character) {
+        String sql = String.format("select o.id, o.name, o.description, o.address from organizations o " +
+                     "join characters_orgs_map m " +
+                     "on m.org_id=o.id " +
+                     "and m.character_id=%d", character.getId());
+        List<Organization> orgs = jdbc.query(sql, new OrganizationMapper());
+        return orgs;
+    }
 
 }

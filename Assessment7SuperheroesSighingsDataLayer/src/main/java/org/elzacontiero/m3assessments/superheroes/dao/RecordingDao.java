@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.elzacontiero.m3assessments.superheroes.dto.Recording;
-import org.elzacontiero.m3assessments.superheroes.dto.Character;
+import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -22,7 +22,7 @@ class RecordingMapper implements RowMapper<Recording> {
 
     public Recording mapRow(ResultSet rs, int rowNum) throws SQLException {
         long characterId = rs.getLong("character_id");
-        Character character = characterDao.getById(characterId);
+        SuperCharacter character = characterDao.getById(characterId);
         Recording rec = new Recording(
             rs.getLong("id"),
             character,

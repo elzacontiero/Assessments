@@ -1,10 +1,13 @@
+drop database superheroes;
+create database superheroes;
+use superheroes;
+
+
 drop table characters;
 drop table organizations;
 drop table characters_orgs_map;
 drop table recordings;
 
-create database superheroes;
-use superheroes;
 
 create table characters (
     id int auto_increment primary key,
@@ -23,10 +26,13 @@ create table organizations (
 );
 
 -- Maps characters to organizations.
+-- Maps characters to organizations.
 create table characters_orgs_map (
     id int auto_increment primary key,
-    character_id int references characters(id),
-    org_id int references organizations(id)
+    character_id int,
+    org_id int,
+    foreign key (character_id) references characters(id) on delete cascade,
+    foreign key (org_id) references organizations(id) on delete cascade
 );
 
 -- Records of sightings

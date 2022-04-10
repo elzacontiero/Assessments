@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Recording {
     long id;
     // Instead of getting the character id, we get the whole reference here.
-    Character character;
+    SuperCharacter character;
     String address;
 
     // See http://wiki.gis.com/wiki/index.php/Decimal_degrees for required precision
@@ -15,7 +15,7 @@ public class Recording {
 
     public Recording() { }
 
-    public Recording(long id, Character character, String address, double latitude, double longitude,
+    public Recording(long id, SuperCharacter character, String address, double latitude, double longitude,
             Timestamp timeOfSight) {
         this.id = id;
         this.character = character;
@@ -33,11 +33,11 @@ public class Recording {
         this.id = id;
     }
 
-    public Character getCharacter() {
+    public SuperCharacter getCharacter() {
         return character;
     }
 
-    public void setCharacter(Character character) {
+    public void setCharacter(SuperCharacter character) {
         this.character = character;
     }
 
