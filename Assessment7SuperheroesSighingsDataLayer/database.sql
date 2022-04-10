@@ -2,13 +2,6 @@ drop database superheroes;
 create database superheroes;
 use superheroes;
 
-
-drop table characters;
-drop table organizations;
-drop table characters_orgs_map;
-drop table recordings;
-
-
 create table characters (
     id int auto_increment primary key,
     name varchar(80),
