@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.sql.DataSource;
+
 import org.elzacontiero.m3assessments.superheroes.dto.Recording;
 import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,16 @@ class RecordingMapper implements RowMapper<Recording> {
 
 public class RecordingDao implements EntityDaoInterface<Recording> {
 
-    @Autowired
+    // @Autowired
     private JdbcTemplate jdbc;
+
+    public RecordingDao(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
+    public RecordingDao(DataSource ds) {
+        this.jdbc = new JdbcTemplate(ds);
+    }
 
     public Recording getById(long id) {
         String sql = String.format("select id, character_id, address, latitude, longitude, time_of_sight "+
@@ -63,10 +73,10 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
             String sql = "insert into recordings(character_id, address, latitude, longitude, time_of_sight) values(?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, recording.getCharacter().getId());
-            ps.setString(1, recording.getAddress());
-            ps.setDouble(1, recording.getLatitude());
-            ps.setDouble(1, recording.getLongitude());
-            ps.setTimestamp(1, recording.getTimeOfSight());
+            ps.setString(2, recording.getAddress());
+            ps.setDouble(3, recording.getLatitude());
+            ps.setDouble(4, recording.getLongitude());
+            ps.setTimestamp(5, recording.getTimeOfSight());
             return ps;
         }
     }
