@@ -58,6 +58,12 @@ public class CharacterDao implements EntityDaoInterface<SuperCharacter> {
         }
     }
 
+    public List<SuperCharacter> getAll() {
+        String sql = "select id, name, description, superpower, character_type from characters";
+        List<SuperCharacter> all = jdbc.query(sql, new CharacterMapper());
+        return all;
+    }
+
     public void delete(long id) {
         jdbc.update("delete from characters where id=?", id);
     }
@@ -132,6 +138,8 @@ public class CharacterDao implements EntityDaoInterface<SuperCharacter> {
         }, key);
         return key.getKey().longValue();
     }
+
+
 
 
 }

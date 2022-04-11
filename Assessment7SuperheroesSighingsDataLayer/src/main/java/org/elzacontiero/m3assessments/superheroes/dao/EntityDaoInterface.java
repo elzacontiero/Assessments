@@ -1,5 +1,7 @@
 package org.elzacontiero.m3assessments.superheroes.dao;
 
+import java.util.List;
+
 public interface EntityDaoInterface<T> {
     /**
      * Retrieve this resource by its id.
@@ -21,5 +23,11 @@ public interface EntityDaoInterface<T> {
      * @return the ID of this record.
      */
     long insert(T x);
+
+    /**
+     * Retrieve all entities.
+     * @return
+     */
+    List<T> getAll();
 
 }
