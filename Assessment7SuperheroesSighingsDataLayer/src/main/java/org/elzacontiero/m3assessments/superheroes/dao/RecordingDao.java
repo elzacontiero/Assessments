@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -51,11 +52,18 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
         this.jdbc = new JdbcTemplate(ds);
     }
 
+    @Override
     public Recording getById(long id) {
         String sql = String.format("select id, character_id, address, latitude, longitude, time_of_sight "+
             "from recordings where id=%d", id);
         jdbc.query(sql, new RecordingMapper());
         return null;
+    }
+
+    @Override
+    public List<Recording> getAll() {
+        return jdbc.query("select id, character_id, address, latitude, longitude, time_of_sight from recordings",
+                new RecordingMapper());
     }
 
     public void delete(long id) {
@@ -81,6 +89,7 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
         }
     }
 
+    @Override
     public long insert(Recording rec) {
         InsertPreparedStm ps = new InsertPreparedStm(rec);
         KeyHolder key = new GeneratedKeyHolder();

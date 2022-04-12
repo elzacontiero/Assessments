@@ -44,6 +44,7 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
         jdbc = new JdbcTemplate(ds);
     }
 
+    @Override
     public Organization getById(long id) {
         String sql = String.format(
             "select id, name, description, address from organizations where id=%d",
@@ -57,6 +58,13 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
             return null;
         }
     }
+
+    @Override
+    public List<Organization> getAll() {
+        return jdbc.query("select id, name, description, address from organizations",
+            new OrganizationMapper());
+    }
+
 
     // https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html
     public void delete(long id) {
