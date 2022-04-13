@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class SuperCharacterController {
@@ -41,5 +42,18 @@ public class SuperCharacterController {
         return "superall";
     }
 
+
+    @GetMapping("/super/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        charService.delete(id);
+        return "forward:/super/all";
+    }
+
+    @GetMapping("/super/edit/{id}")
+    public String edit(Model model, @PathVariable("id") Long id) {
+        SuperCharacter superChar = charService.getById(id);
+        model.addAttribute("superChar", superChar);
+        return "superedit";
+    }
 
 }

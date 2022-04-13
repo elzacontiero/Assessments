@@ -17,4 +17,12 @@ public class CharacterService {
         List<SuperCharacter> chars = charDao.getAll();
         return chars;
     }
+
+    public void delete(long id) {
+        charDao.delete(id);
+    }
+
+    public SuperCharacter getById(long id) {
+        return charDao.getById(id);
+    }
 }
