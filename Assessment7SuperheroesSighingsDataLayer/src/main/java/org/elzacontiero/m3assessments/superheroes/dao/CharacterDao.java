@@ -139,7 +139,14 @@ public class CharacterDao implements EntityDaoInterface<SuperCharacter> {
         return key.getKey().longValue();
     }
 
-
-
-
+    @Override
+    public void update(SuperCharacter character) {
+        String sql = String.format(
+            "update characters set name='%s', description='%s', superpower='%s', character_type='%s' where id=%d",
+            character.getName(), character.getDescription(), character.getSuperpower(), character.getCharacterType(),
+            character.getId()
+        );
+        System.out.println(sql);
+        jdbc.update(sql);
+    }
 }

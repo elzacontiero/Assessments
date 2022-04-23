@@ -30,4 +30,10 @@ public interface EntityDaoInterface<T> {
      */
     List<T> getAll();
 
+    /**
+     * Updates the given object in the database, given the ID.
+     * @param x
+     */
+    void update(T x);
+
 }

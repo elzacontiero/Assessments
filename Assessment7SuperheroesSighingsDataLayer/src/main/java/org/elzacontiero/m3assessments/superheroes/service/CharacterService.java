@@ -22,6 +22,15 @@ public class CharacterService {
         charDao.delete(id);
     }
 
+    public void update(SuperCharacter updateChar) {
+        charDao.update(updateChar);
+    }
+
+    public void insert(SuperCharacter character) {
+        Long id = charDao.insert(character);
+        System.out.println("CharacterService.insert: "+character+" got id="+id);
+    }
+
     public SuperCharacter getById(long id) {
         return charDao.getById(id);
     }

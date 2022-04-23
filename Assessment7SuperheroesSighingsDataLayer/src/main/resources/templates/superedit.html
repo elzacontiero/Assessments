@@ -11,30 +11,37 @@
 <body>
     <div th:replace="header :: header"></div>
 
-    <h1>Edit</h1>
-    <form action="superedit ">
-        <div class="mb-3">
-            <label for="name1" class="form-label">Name</label>
-            <input class="form-control" id="name1" aria-describedby="nameHelp">
-            <div id="nameHelp" class="form-text">The name of the character.</div>
-        </div>
-        <div class="mb-3">
-            <label for="description1" class="form-label">Description</label>
-            <input class="form-control" id="description1" aria-describedby="descriptionHelp">
-            <div id="descriptionHelp" class="form-text">Long description.</div>
-        </div>
-        <div class="mb-3">
-            <label for="superpower1" class="form-label">Superpower</label>
-            <input type="text" class="form-control" id="1">
-        </div>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>Hero</option>
-            <option>Villain</option>
-        </select>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
+    <div class="container">
+        <h1>Edit</h1>
+        <form action="#" th:action="@{/super}" method="post" th:object="${superChar}">
+            <input class="form-control" id="id" type="hidden" th:field="*{id}" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input class="form-control" id="name" type="text" aria-describedby="nameHelp" value="" th:field="*{name}"/>
+                <div id="nameHelp" class="form-text">The name of the character.</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input class="form-control" id="description" type="text" aria-describedby="descriptionHelp" value="" th:field="*{description}"/>
+                <div id="descriptionHelp" class="form-text">Long description.</div>
+            </div>
+            <div class="mb-3">
+                <label for="superpower1" class="form-label">Superpower</label>
+                <input class="form-control" id="superpower" type="text" value="" th:field="*{superpower}"/>
+            </div>
+            <div class="mb-3">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="characterType"
+                    th:field="*{characterType}">
+                    <option value="H">Hero</option>
+                    <option value="V">Villain</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

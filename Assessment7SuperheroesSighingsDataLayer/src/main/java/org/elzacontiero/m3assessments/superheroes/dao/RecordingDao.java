@@ -99,4 +99,9 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
         return id;
     }
 
+    @Override
+    public void update(Recording rec) {
+
+    }
+
 }

@@ -109,4 +109,9 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
         return orgs;
     }
 
+    @Override
+    public void update(Organization org) {
+        // TODO
+    }
+
 }

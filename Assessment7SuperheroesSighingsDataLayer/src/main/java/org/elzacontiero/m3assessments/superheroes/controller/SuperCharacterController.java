@@ -4,14 +4,14 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-
-import org.elzacontiero.m3assessments.superheroes.dao.CharacterDao;
 import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.elzacontiero.m3assessments.superheroes.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
@@ -51,9 +51,28 @@ public class SuperCharacterController {
 
     @GetMapping("/super/edit/{id}")
     public String edit(Model model, @PathVariable("id") Long id) {
-        SuperCharacter superChar = charService.getById(id);
+        SuperCharacter superChar = null;
+        if (id==0) {
+            superChar = new SuperCharacter();
+        } else {
+            superChar = charService.getById(id);
+        }
         model.addAttribute("superChar", superChar);
         return "superedit";
     }
 
+    @PostMapping("/super")
+    public String edit(@ModelAttribute SuperCharacter superChar, Model model) {
+        System.out.println("POST: got " + superChar);
+        SuperCharacter superCharFound = charService.getById(superChar.getId());
+        if (superCharFound == null) {
+            charService.insert(superChar);
+        } else {
+            // Handle update
+            System.out.println("POST: found id -> update");
+            charService.update(superChar);
+        }
+
+        return "redirect:/super/all";
+    }
 }

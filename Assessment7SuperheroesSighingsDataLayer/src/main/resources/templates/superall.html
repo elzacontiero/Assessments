@@ -12,9 +12,13 @@
     <div th:replace="header :: header"></div>
 
     <!-- See https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#link-urls  -->
+    <div class="container">
 
     <h1>All Super Characters</h1>
-    <p>Size of list=<span th:text="${size}"></span></p>
+    <a href="superedit.html" th:href="@{/super/edit/0}">
+        <button type="button" class="btn btn-outline-primary btn-sm">New</button>
+    </a>
+    <p>Total characters in the database: <span th:text="${size}"></span></p>
     <table class="table">
         <thead>
             <tr>
@@ -38,7 +42,7 @@
             </tr>
         </tbody>
     </table>
-
+    </div>
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
