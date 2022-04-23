@@ -111,7 +111,8 @@ public class OrganizationDao implements EntityDaoInterface<Organization> {
 
     @Override
     public void update(Organization org) {
-        // TODO
+        jdbc.update("update organizations set name=?, description=?, address=? where id=?",
+            org.getName(), org.getDescription(), org.getAddress(), org.getId());
     }
 
 }

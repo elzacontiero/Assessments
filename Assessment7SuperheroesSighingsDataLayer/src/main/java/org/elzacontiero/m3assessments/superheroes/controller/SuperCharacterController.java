@@ -61,7 +61,7 @@ public class SuperCharacterController {
         return "superedit";
     }
 
-    @PostMapping("/super")
+    @PostMapping("/super/edit")
     public String edit(@ModelAttribute SuperCharacter superChar, Model model) {
         System.out.println("POST: got " + superChar);
         SuperCharacter superCharFound = charService.getById(superChar.getId());

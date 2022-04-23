@@ -13,12 +13,12 @@
 
     <div class="container">
         <h1>Edit</h1>
-        <form action="#" th:action="@{/super/edit}" method="post" th:object="${superChar}">
+        <form action="#" th:action="@{/orgs/edit}" method="post" th:object="${org}">
             <input class="form-control" id="id" type="hidden" th:field="*{id}" />
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input class="form-control" id="name" type="text" aria-describedby="nameHelp" value="" th:field="*{name}"/>
-                <div id="nameHelp" class="form-text">The name of the character.</div>
+                <div id="nameHelp" class="form-text">The name of the organization.</div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
@@ -26,16 +26,8 @@
                 <div id="descriptionHelp" class="form-text">Long description.</div>
             </div>
             <div class="mb-3">
-                <label for="superpower1" class="form-label">Superpower</label>
-                <input class="form-control" id="superpower" type="text" value="" th:field="*{superpower}"/>
-            </div>
-            <div class="mb-3">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="characterType"
-                    th:field="*{characterType}">
-                    <option value="H">Hero</option>
-                    <option value="V">Villain</option>
-                </select>
+                <label for="superpower1" class="form-label">Address</label>
+                <input class="form-control" id="superpower" type="text" value="" th:field="*{address}"/>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Submit</button>

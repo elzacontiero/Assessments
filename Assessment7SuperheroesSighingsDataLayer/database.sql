@@ -19,7 +19,6 @@ create table organizations (
 );
 
 -- Maps characters to organizations.
--- Maps characters to organizations.
 create table characters_orgs_map (
     id int auto_increment primary key,
     character_id int,
