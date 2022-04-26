@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
 class RecordingMapper implements RowMapper<Recording> {
 
@@ -25,10 +26,10 @@ class RecordingMapper implements RowMapper<Recording> {
 
     public Recording mapRow(ResultSet rs, int rowNum) throws SQLException {
         long characterId = rs.getLong("character_id");
-        SuperCharacter character = characterDao.getById(characterId);
+        // SuperCharacter character = characterDao.getById(characterId);
         Recording rec = new Recording(
             rs.getLong("id"),
-            character,
+            characterId,
             rs.getString("address"),
             rs.getBigDecimal("latitude").doubleValue(),
             rs.getBigDecimal("longitude").doubleValue(),
@@ -38,15 +39,13 @@ class RecordingMapper implements RowMapper<Recording> {
     }
 }
 
-
+@Component
 public class RecordingDao implements EntityDaoInterface<Recording> {
 
-    // @Autowired
+    @Autowired
     private JdbcTemplate jdbc;
 
-    public RecordingDao(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
+    public RecordingDao() { }
 
     public RecordingDao(DataSource ds) {
         this.jdbc = new JdbcTemplate(ds);
@@ -56,7 +55,12 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
     public Recording getById(long id) {
         String sql = String.format("select id, character_id, address, latitude, longitude, time_of_sight "+
             "from recordings where id=%d", id);
-        jdbc.query(sql, new RecordingMapper());
+        System.out.println("SQL="+sql);
+
+        List<Recording> recs = jdbc.query(sql, new RecordingMapper());
+        if (recs.size()==1) {
+            return recs.get(0);
+        }
         return null;
     }
 
@@ -78,9 +82,9 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
         }
 
         public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-            String sql = "insert into recordings(character_id, address, latitude, longitude, time_of_sight) values(?,?,?,?,?)";
+            String sql = "insert into recordings(character_id, address, latitude, longitude, time_of_sight) values (?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, recording.getCharacter().getId());
+            ps.setLong(1, recording.getCharacterId());
             ps.setString(2, recording.getAddress());
             ps.setDouble(3, recording.getLatitude());
             ps.setDouble(4, recording.getLongitude());
@@ -101,7 +105,12 @@ public class RecordingDao implements EntityDaoInterface<Recording> {
 
     @Override
     public void update(Recording rec) {
-
+        jdbc.update("update recordings set address=?, latitude=?, longitude=? where id=?",
+            rec.getAddress(),
+            rec.getLatitude(),
+            rec.getLongitude(),
+            rec.getId()
+        );
     }
 
 }

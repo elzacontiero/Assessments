@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Sight Locations - Edit</title>
+</head>
+<body>
+    <div th:replace="header :: header"></div>
+
+    <div class="container">
+        <h1>Edit</h1>
+        <form action="#" th:action="@{/sight/edit}" method="post" th:object="${rec}">
+            <input class="form-control" id="id" type="hidden" th:field="*{id}"/>
+            <div class="mb-3">
+                <label for="character" class="form-label">Character spotted</label>
+                <select id="characterId" class="form-select" name="characterId">
+                    <option th:each="character : ${chars}"
+                            th:value="${character.id}"
+                            th:text="${character.name}"
+                            th:selected="${character.id==rec.characterId}">
+                    </option>
+                </select>
+                <div id="characterHelp" class="form-text">Character spotted, hero or villain. Select from the drop-down.</div>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input class="form-control"
+                       id="addressn" type="text" aria-describedby="addressHelp" value=""
+                       th:field="*{address}"/>
+                <div id="addressHelp" class="form-text">Address where the hero/villan has been spotted.</div>
+            </div>
+            <div class="mb-3">
+                <label for="latitude" class="form-label">Latitude</label>
+                <input class="form-control" id="longitude" type="number" value="" th:field="*{latitude}"/>
+            </div>
+            <div class="mb-3">
+                <label for="longitude" class="form-label">Longitude</label>
+                <input class="form-control" id="longitude" type="number" value="" th:field="*{longitude}"/>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous">
+    </script>
+</body>
+</html>
