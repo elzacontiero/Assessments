@@ -27,8 +27,8 @@ public class RecordingTest {
     @Test
     public void testInsertGet() throws Exception {
         SuperCharacter c1 = new SuperCharacter(0, "Superman", "The alien that looks like human.", "super strong, flies, laser vision", "H");
-        charDao.insert(c1);
-        Recording rec = new Recording(0, c1, "address", 0.0, 0.0, Timestamp.from(Instant.now()));
+        long characterId = charDao.insert(c1);
+        Recording rec = new Recording(0, characterId, "address", 0.0, 0.0, Timestamp.from(Instant.now()));
         recDao.insert(rec);
         assertTrue(rec.getId()>0);
         recDao.delete(rec.getId());
