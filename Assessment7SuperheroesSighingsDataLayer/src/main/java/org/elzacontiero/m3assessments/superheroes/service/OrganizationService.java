@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.elzacontiero.m3assessments.superheroes.dao.OrganizationDao;
 import org.elzacontiero.m3assessments.superheroes.dto.Organization;
+import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,4 +39,17 @@ public class OrganizationService implements ServiceInterface<Organization> {
     public Organization getById(long id) {
         return dao.getById(id);
     }
+
+    /**
+     * Get all organizations that this character belongs to.
+     * @return
+     */
+    public List<Organization> getOrganizationsForCharacter(SuperCharacter character) {
+        return dao.getOrganizations(character);
+    }
+
+    public List<Organization> getAll() {
+        return dao.getAll();
+    }
+
 }

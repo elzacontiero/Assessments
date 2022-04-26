@@ -1,5 +1,7 @@
 package org.elzacontiero.m3assessments.superheroes.dto;
 
+import java.util.List;
+
 public class SuperCharacter {
     long id;
     String name;
@@ -7,6 +9,8 @@ public class SuperCharacter {
     String superpower;
 
     String characterType;
+
+    List<Organization> organizations;
 
     public SuperCharacter() {}
 
@@ -56,6 +60,24 @@ public class SuperCharacter {
 
     public void setCharacterType(String characterType) {
         this.characterType = characterType;
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
+    }
+
+    public Boolean belongsTo(Organization someOrg) {
+        for (Organization org : organizations) {
+            if (org.getId() == someOrg.getId()) {
+                System.out.println("Character.belongsTo: id="+org.getId());
+                return Boolean.valueOf(true);
+            }
+        }
+        return Boolean.valueOf(false);
     }
 
     @Override

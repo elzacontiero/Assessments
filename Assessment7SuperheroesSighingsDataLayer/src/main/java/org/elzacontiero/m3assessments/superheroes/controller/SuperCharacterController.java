@@ -4,8 +4,11 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+
+import org.elzacontiero.m3assessments.superheroes.dto.Organization;
 import org.elzacontiero.m3assessments.superheroes.dto.SuperCharacter;
 import org.elzacontiero.m3assessments.superheroes.service.CharacterService;
+import org.elzacontiero.m3assessments.superheroes.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,9 @@ public class SuperCharacterController {
 
     @Autowired
     CharacterService charService;
+
+    @Autowired
+    OrganizationService orgsService;
 
     @GetMapping("test")
     public String test(SuperCharacter character) {
@@ -58,18 +64,21 @@ public class SuperCharacterController {
             superChar = charService.getById(id);
         }
         model.addAttribute("superChar", superChar);
+        List<Organization> orgs = orgsService.getAll();
+        model.addAttribute("allOrgs", orgs);
         return "superedit";
     }
 
     @PostMapping("/super/edit")
     public String edit(@ModelAttribute SuperCharacter superChar, Model model) {
-        System.out.println("POST: got " + superChar);
         SuperCharacter superCharFound = charService.getById(superChar.getId());
         if (superCharFound == null) {
             charService.insert(superChar);
         } else {
             // Handle update
-            System.out.println("POST: found id -> update");
+            for (Organization org : superChar.getOrganizations()) {
+                System.out.println("POST: "+ org);
+            }
             charService.update(superChar);
         }
 

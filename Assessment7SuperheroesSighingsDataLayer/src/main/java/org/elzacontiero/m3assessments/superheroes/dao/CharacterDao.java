@@ -141,12 +141,23 @@ public class CharacterDao implements EntityDaoInterface<SuperCharacter> {
 
     @Override
     public void update(SuperCharacter character) {
-        String sql = String.format(
-            "update characters set name='%s', description='%s', superpower='%s', character_type='%s' where id=%d",
-            character.getName(), character.getDescription(), character.getSuperpower(), character.getCharacterType(),
+        jdbc.update("update characters set name=?, description=?, superpower=?, character_type=? where id=?",
+            character.getName(),
+            character.getDescription(),
+            character.getSuperpower(),
+            character.getCharacterType(),
             character.getId()
         );
-        System.out.println(sql);
-        jdbc.update(sql);
+
+        jdbc.update("delete from characters_orgs_map where character_id=?", character.getId());
+
+        if (character.getOrganizations() != null) {
+            for (Organization org : character.getOrganizations()) {
+                // System.out.println("CharacterDao: insert map: "+org);
+                jdbc.update("insert into characters_orgs_map(character_id, org_id) values (?, ?)",
+                    character.getId(),
+                    org.getId());
+            }
+        }
     }
 }

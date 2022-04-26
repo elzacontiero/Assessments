@@ -28,6 +28,7 @@
             <div class="mb-3">
                 <label for="superpower1" class="form-label">Superpower</label>
                 <input class="form-control" id="superpower" type="text" value="" th:field="*{superpower}"/>
+                <div id="superpowerHelp" class="form-text">Shortly mention to the superpower.</div>
             </div>
             <div class="mb-3">
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example"
@@ -36,6 +37,17 @@
                     <option value="H">Hero</option>
                     <option value="V">Villain</option>
                 </select>
+                <div id="typeHelp" class="form-text">Select between a Hero or a Villain.</div>
+            </div>
+            <div class="mb-3">
+                <select class="form-select" multiple="multiple" id="organizations" name="organizations" aria-label="multiple select example">
+                    <option th:each="org : ${allOrgs}"
+                            th:value="${org.id}"
+                            th:text="${org.name}"
+                            th:selected="${superChar.belongsTo(org)}">
+                    </option>
+                </select>
+                <div id="organizationsHelp" class="form-text">Select all the organizations for which this superhero/villain belongs to.</div>
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Submit</button>
